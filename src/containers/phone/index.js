@@ -1,8 +1,10 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux';
-import { fetchPhoneById } from '../../actions';
+import { fetchPhoneById, addPhoneToBasket } from '../../actions';
 import { getPhoneById } from '../../selectors';
+import BasketCart from '../../components/basketCart';
 import * as R from 'ramda';
+import { Link } from 'react-router-dom';
 
 class Phone extends Component {
     componentDidMount() {
@@ -63,8 +65,26 @@ class Phone extends Component {
 
 
     renderSidebar() {
+        const {phone, addPhoneToBasket} = this.props;
         return (
-           <div></div>
+           <div>
+               <p className='lead'>Quick shop</p>
+               <BasketCart/>
+               <div className="form-group">
+                   <h1>{phone.name}</h1>
+                   <h2>{phone.price}</h2>
+               </div>
+               <Link to='/' className='btn btn-info btn-block'>
+                   Back to store
+               </Link>
+               <button 
+               type='button'
+               onClick={() => addPhoneToBasket(phone.id)}
+               className="btn btn-success btn-block"
+               >
+                   Add to cart
+               </button>
+           </div>
         )
     }
 
@@ -88,7 +108,7 @@ class Phone extends Component {
 }
 
 const mapDispatchToProps = {
-    fetchPhoneById
+    fetchPhoneById, addPhoneToBasket
 }
 const mapStateToProps = state => {
     return {
