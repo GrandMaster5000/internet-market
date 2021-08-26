@@ -1,14 +1,6 @@
 import React from 'react';
-import { Switch, Route } from 'react-router';
-import Phones from '../phones';
 
-const routes = (
-    <Switch>
-        <Route path='/' exact component={Phones}/>
-    </Switch>
-)
-
-const Layout = () => (
+const Layout = ({children}) => (
     <div className='view-container'>
     <div className="container">
         <div className="row">
@@ -16,7 +8,7 @@ const Layout = () => (
                 sideBar
             </div>
             <div className="col-md-9">
-                {routes}
+                {children}
             </div>
         </div>
     </div>
