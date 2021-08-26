@@ -6,9 +6,9 @@ import { createBrowserHistory } from 'history';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import thunk from 'redux-thunk';
 import { ConnectedRouter, routerMiddleware } from 'connected-react-router';
-import createRootReducer from 'reducers';
+import createRootReducer from './redusers/index';
 import { Provider } from 'react-redux';
-import Layout from 'containers/layout';
+import Layout from './containers/layout';
 
 const history = createBrowserHistory();
 const middlewares = [thunk, routerMiddleware(history)]
