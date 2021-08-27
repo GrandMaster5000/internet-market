@@ -2,13 +2,22 @@ import * as R from 'ramda';
 
 export const getPhoneById = (state, id) => R.prop(id, state.phones);
 
-export const getPhones = state => {
+export const getActiveCategoryId = onwProps => R.path(['match', 'params', 'id'], onwProps)
+
+
+export const getPhones = (state, ownProps) => {
+    const activeCategoryId = getActiveCategoryId(ownProps);
     const applySearch = item => R.includes(
         (state.phonesPage.search).toLowerCase(),
         R.prop('name', item).toLowerCase()
     )
+    const applyCategory = (item) => R.equals(
+        activeCategoryId,
+        R.prop('categoryId', item)
+    )
     const phones = R.compose(
         R.filter(applySearch),
+        R.when(R.always(activeCategoryId), R.filter(applyCategory)),
         R.map(id => getPhoneById(state, id))
     )(state.phonesPage.ids);
 
@@ -28,3 +37,5 @@ export const getTotalBasketPrice  = state => {
 
     return totalPrice;
 }
+
+export const getCategories = state => R.values(state.categories);

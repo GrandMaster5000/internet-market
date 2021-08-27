@@ -70,7 +70,7 @@ const mapDispatchToProps = {
     fetchCategories
 }
 
-const mapStateToProps = state => ({
-    phones: getPhones(state)
+const mapStateToProps = (state, ownProps) => ({
+    phones: getPhones(state, ownProps),
 })
 export default connect(mapStateToProps, mapDispatchToProps)(Phones);
