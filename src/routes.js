@@ -7,6 +7,7 @@ export default (
     <Switch>
         <Route path='/' exact component={Phones}/>
         <Route path='/phones/:id' component={Phone}/>
+        <Route path='/categories/:id' component={Phones}/>
     </Switch>
 )
 
