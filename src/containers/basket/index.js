@@ -2,9 +2,11 @@ import React from 'react'
 import { connect } from 'react-redux';
 import { getTotalBasketPrice, getBasketPhonesWithCount } from '../../selectors';
 import * as R from 'ramda';
+import {removePhoneFromBasket, cleanBasket, basketCheckout} from '../../actions/';
+import { Link } from 'react-router-dom';
 
 
-const Basket = ({phones, totalPrice}) => {
+const Basket = ({phones, totalPrice, removePhoneFromBasket, cleanBasket, basketCheckout}) => {
     const isBasketEmpty = R.isEmpty(phones);
 
     const renderContent = () => (
@@ -28,7 +30,9 @@ const Basket = ({phones, totalPrice}) => {
                                 <td>${phone.price}</td>
                                 <td>{phone.count}</td>
                                 <td>
-                                    <span className='delete-cart'></span>
+                                    <span 
+                                    onClick={() => removePhoneFromBasket(phone.id)} 
+                                    className='delete-cart'></span>
                                 </td>
                             </tr>
                         ))}
@@ -47,7 +51,29 @@ const Basket = ({phones, totalPrice}) => {
     )
 
     const renderSidebar = () => (
-        <div>Sidebar</div>
+        <div>
+            <Link to='/' 
+            className='btn btn-info'>
+                <span className='glyphicon glyphicon-info-sign'></span>
+                <span>Continue shopping!</span>
+            </Link>
+            {R.not(isBasketEmpty) && (
+                <div>
+                    <button
+                    onClick={cleanBasket}
+                    className='btn btn-danger'>
+                        <span className='glyphicon glyphicon-trash'></span>
+                        Claen cart
+                    </button>
+                    <button 
+                    className="btn btn-success"
+                    onClick={() => basketCheckout(phones)}>
+                        <span className='glyphicon glyphicon-envelope'></span>
+                        Checkout
+                    </button>
+                </div>
+            )}
+        </div>
     )
 
     return (
@@ -72,4 +98,10 @@ const mapStateToProps = state => {
         totalPrice: getTotalBasketPrice(state)
     }
 }
-export default connect(mapStateToProps)(Basket);
+
+const mapDispatchToProps = {
+    removePhoneFromBasket,
+    cleanBasket, 
+    basketCheckout
+}
+export default connect(mapStateToProps, mapDispatchToProps)(Basket);
