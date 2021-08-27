@@ -1,5 +1,5 @@
 import * as R from 'ramda';
-import { FETCH_PHONES_SUCCESS, LOAD_MORE_PHONES_SUCCESS, SEARCH_PHONE} from "../actionTypes";
+import { FETCH_PHONES_SUCCESS, LOAD_MORE_PHONES_SUCCESS, SEARCH_PHONE, COLLAPSE_PHONES} from "../actionTypes";
 
 const initState = {
     ids: [],
@@ -20,7 +20,22 @@ export default (state = initState, action) => {
         case SEARCH_PHONE:
             return R.merge(state, {
                 search: action.payload
-            })
+            });
+        case COLLAPSE_PHONES:
+            const idsLength = state.ids.length;
+            if(idsLength % 6 === 0 && idsLength > 6) {
+               return {
+                    ...state,
+                    ids: state.ids.slice(0, idsLength - 6)
+                }
+            } else if(idsLength % 6 !== 0 && idsLength > 6 ) {
+                return {
+                    ...state,
+                    ids: state.ids.slice(0, idsLength - (idsLength % 6))
+                }
+            } else {
+                return state
+            }
         default:
             return state;
     }

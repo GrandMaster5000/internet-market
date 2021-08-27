@@ -13,7 +13,8 @@ import { FETCH_PHONES_FAILURE,
      FETCH_CATEGORIES_START,
      FETCH_CATEGORIES_SUCCESS,
      REMOVE_PHONE_FROM_BASKET,
-     CLEAN_BASKET
+     CLEAN_BASKET,
+     COLLAPSE_PHONES
      } from "../actionTypes";
 import { fetchPhones as fetchPhonesApi,
 loadMorePhones as loadMorePhonesApi,
@@ -134,5 +135,11 @@ export const cleanBasket = () => dispatch => {
 
 export const basketCheckout = phones => () => {
     alert(JSON.stringify(phones))
+}
+
+export const collapsePhones = () => dispatch => {
+    dispatch({
+        type: COLLAPSE_PHONES
+    })
 }
 

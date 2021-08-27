@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { fetchPhones, loadMorePhones, addPhoneToBasket, fetchCategories } from '../../actions';
+import { fetchPhones, loadMorePhones, addPhoneToBasket, fetchCategories, collapsePhones } from '../../actions';
 import {getPhones} from '../../selectors';
 import * as R from 'ramda';
 import { Link } from 'react-router-dom';
@@ -44,14 +44,20 @@ class Phones extends Component {
     }
 
     render () {
-        const {phones, loadMorePhones} = this.props;
+        const {phones, loadMorePhones, collapsePhones} = this.props;
         return (
             <Layout>
                 <div className='books row'>
                     {phones.map((phone, index) => this.renderPhone(phone, index))}
                 </div>
                 <div className="row">
-                    <div className="col-md-12">
+                    <div className="col-md-6">
+                        <button onClick={collapsePhones}
+                        className='pull-left btn btn-danger'>
+                            Collapse
+                        </button>
+                    </div>
+                    <div className="col-md-6">
                         <button onClick={loadMorePhones}
                         className='pull-right btn btn-primary'>
                             Load more
@@ -67,7 +73,8 @@ const mapDispatchToProps = {
     fetchPhones,
     loadMorePhones,
     addPhoneToBasket,
-    fetchCategories
+    fetchCategories,
+    collapsePhones
 }
 
 const mapStateToProps = (state, ownProps) => ({
